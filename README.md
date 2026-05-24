@@ -1,19 +1,34 @@
-# Pedestrian Behaviour Analysis For Driving
+# 🚶 Pedestrian Behaviour Analysis For Driving (AEB Analytics Pipeline)
 
-A project for analyzing pedestrian behavior using YOLOv8 for object detection, face detection, and pose estimation.
+A high-performance, GPU-adaptive pipeline for analyzing pedestrian behavior, intent, and collision risk. This project leverages an ensemble of YOLOv8 models, MediaPipe, and HSEmotion to generate rich, frame-by-frame dataset annotations for Autonomous Emergency Braking (AEB) and social-context models.
+
+## 🌟 Key Features
+
+- **🚀 GPU-Adaptive Extreme Performance:** Auto-tunes inference resolution, thread pools, and VRAM limits based on hardware (scales from CPU fallback up to RTX 4090 / H100 datacenters). Utilizes `torch.compile`, CUDA streams, and asynchronous pinned memory.
+- **🧠 Unified Multi-Model Pipeline:** 
+  - **YOLOv8s-pose:** Pedestrian tracking, bounding boxes, and 17-point COCO keypoints.
+  - **YOLOv8m:** High-accuracy smartphone and held-item detection.
+  - **YOLOv8n-face + HSEmotion:** Real-time facial emotion recognition.
+  - **MediaPipe Hands:** Fallback for precise STOP/yield hand gestures.
+- **🚗 AEB Pedestrian Logic:** Predictive collision pathing, crossing intent recognition, monocular pinhole depth estimation, and social-context tracking (distance to peers).
+- **🗺️ GPU-Accelerated Bird's Eye View (BEV):** Real-time, top-down distance map with trajectory trails and ego-vehicle proximity rings.
+- **💾 Zero-Bottleneck Data Continuity:** Non-destructive checkpointing (`checkpoint.json`). Pausing, resuming, and restarting effortlessly across multiple video sessions without data truncation. Asynchronous IO prevents frame freezing.
 
 ## Project Structure
 
 ```
-├── gen_dataset6.py          # Script for generating dataset
-├── requirements.txt         # Python dependencies
-├── inference/              # Inference results and data (not tracked in git)
-│   ├── images/            # Output images
-│   └── videos/            # Output videos
-└── Models/                 # YOLOv8 model files (download separately)
-    ├── yolov8m.pt         # YOLOv8 medium model
-    ├── yolov8n-face.pt    # YOLOv8 nano face detection model
-    └── yolov8s-pose.pt    # YOLOv8 small pose estimation model
+├── gen_dataset6.py           # Core analytics and dataset generation script
+├── requirements.txt          # Python dependencies
+├── checkpoint.json           # Auto-generated DB tracking paused/resumed video states
+├── dataset_master.csv        # Master dataset (appended continuously)
+├── dataset.json              # Master JSON schema (appended continuously)
+├── inference/                # Generated assets (ignored in version control)
+│   ├── videos/               # Place input videos here
+│   └── images/               # Annotated snapshots triggered by dataset events
+└── Models/                   # Model weights directory
+    ├── yolov8s-pose.pt       
+    ├── yolov8m.pt            
+    └── yolov8n-face.pt       
 ```
 
 ## Setup Instructions
@@ -56,7 +71,7 @@ python gen_dataset6.py
 
 ## Requirements
 
-- Python 3.8+
+- Python 3.10.0
 - PyTorch
 - YOLOv8
 - OpenCV
