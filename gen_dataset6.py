@@ -408,6 +408,9 @@ create_reid_config()
 # ==========================================================
 # ✅ MODELS — LOADED & COMPILED (GPU-adaptive imgsz)
 # ==========================================================
+if not os.path.exists("Models"):
+    os.makedirs("Models")
+
 pose_master_model = YOLO("Models/yolov8s-pose.pt").to(device)
 obj_model         = YOLO("Models/yolov8m.pt").to(device)
 face_model        = YOLO("Models/yolov8n-face.pt")
