@@ -89,4 +89,4 @@ python gen_dataset6.py
 
 ## Author
 
-Sawon Paul
+Sawon Paul, Prottoy Saha, Rifat Farzad Azad, Sanjida Islam Susmita, Tanjina Tansnim
