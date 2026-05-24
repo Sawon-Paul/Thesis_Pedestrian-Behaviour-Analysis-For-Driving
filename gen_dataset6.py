@@ -408,9 +408,9 @@ create_reid_config()
 # ==========================================================
 # ✅ MODELS — LOADED & COMPILED (GPU-adaptive imgsz)
 # ==========================================================
-pose_master_model = YOLO("yolov8s-pose.pt").to(device)
-obj_model         = YOLO("yolov8m.pt").to(device)
-face_model        = YOLO("yolov8n-face.pt")
+pose_master_model = YOLO("Models/yolov8s-pose.pt").to(device)
+obj_model         = YOLO("Models/yolov8m.pt").to(device)
+face_model        = YOLO("Models/yolov8n-face.pt")
 try:
     face_model.to(device)
 except Exception:
